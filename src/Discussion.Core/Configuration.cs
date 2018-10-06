@@ -13,12 +13,13 @@ namespace Discussion.Core
         private const string EVariablePrefixHosting = "ASPNETCORE_";
         private const string EVariablePrefixAppSettings = "DOTNETCLUB_";
         
-        public static IWebHostBuilder ConfigureHost(IWebHostBuilder hostBuilder, bool addCommandLineArguments = false)
+        public static IWebHostBuilder ConfigureHost(string[] commandlineArgs)
         {
-            var basePath = Directory.GetCurrentDirectory();
-            var hostSettingsBuilder = BuildHostConfiguration(basePath, addCommandLineArguments ? Environment.GetCommandLineArgs() : null);
 
-            return hostBuilder
+            var basePath = Directory.GetCurrentDirectory();
+            var hostSettingsBuilder = BuildHostConfiguration(basePath, commandlineArgs);
+
+            return new WebHostBuilder()
                 .UseContentRoot(basePath)
                 .UseConfiguration(hostSettingsBuilder.Build())
                 .UseIISIntegration()
@@ -33,7 +34,7 @@ namespace Discussion.Core
                 });
         }
 
-        private static IConfigurationBuilder BuildHostConfiguration(string basePath, string[] commandlineArgs = null)
+        private static IConfigurationBuilder BuildHostConfiguration(string basePath, string[] commandlineArgs)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(basePath)

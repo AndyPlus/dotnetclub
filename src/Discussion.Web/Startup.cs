@@ -28,10 +28,10 @@ namespace Discussion.Web
             _loggerFactory = loggerFactory;
         }
 
-        private static void Main()
+        public static void Main(string[] args)
         {
             var host = Configuration
-                .ConfigureHost(new WebHostBuilder(), addCommandLineArguments: true)
+                .ConfigureHost(args)
                 .UseStartup<Startup>()
                 .Build();
             
